@@ -1,2 +1,2 @@
 export * from './SharedLayout';
-// export * from './Trending';
+export * from './Trending';
