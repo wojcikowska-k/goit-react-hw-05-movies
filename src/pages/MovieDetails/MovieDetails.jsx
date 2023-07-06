@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 import { fetchMovieDetailsWithId } from 'services';
+import {
+  Button,
+  Details,
+  Description,
+  Additional,
+  Item,
+} from './MovieDetails.styled';
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const [details, setDetails] = useState({});
   const { id } = useParams();
 
@@ -30,40 +37,43 @@ export const MovieDetails = () => {
 
   return (
     <main>
-      <div>
-        <Link to={backLinkHref}>
-          <button>&#x2190; Go back</button>
-        </Link>
+      <Link to={backLinkHref}>
+        <Button>&#x2190; Go back</Button>
+      </Link>
+      <Details>
         <img
           src={`https://image.tmdb.org/t/p/original${poster_path}`}
           alt={title}
-          width={250}
+          width={350}
         />
-        <h2>
-          {title}({release_date ? release_date.slice(0, 4) : ''})
-        </h2>
-        <span>User score: {Math.round(vote_average * 10)}%</span>
+        <Description>
+          <h2>
+            {title}({release_date ? release_date.slice(0, 4) : ''})
+          </h2>
+          <span>User score: {Math.round(vote_average * 10)}%</span>
 
-        <h3>Overview</h3>
-        <p>{overview}</p>
+          <h3>Overview</h3>
+          <p>{overview}</p>
 
-        <h3>Genres</h3>
-        {genres ? getGenres() : ''}
-      </div>
-      <div>
+          <h3>Genres</h3>
+          {genres ? getGenres() : ''}
+        </Description>
+      </Details>
+      <Additional>
         <span>Additional information</span>
         <ul>
           <li>
-            <Link to="cast">Cast</Link>
+            <Item to="cast">Cast</Item>
           </li>
           <li>
-            <Link to="reviews">Reviews</Link>
+            <Item to="reviews">Reviews</Item>
           </li>
         </ul>
-      </div>
+      </Additional>
       <div>
         <Outlet />
       </div>
     </main>
   );
 };
+export default MovieDetails;

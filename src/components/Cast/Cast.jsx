@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieCast } from 'services';
+import { CastStyle } from './Cast.styled';
 
-export const Cast = () => {
+const Cast = () => {
   const [cast, setCast] = useState([]);
   const { id } = useParams();
 
@@ -27,11 +28,15 @@ export const Cast = () => {
               alt={member.name}
               width={100}
             ></img>
-            <span>{member.name}</span>
-            <span>Character: {member.character}</span>
+            <CastStyle>
+              <span>{member.name}</span>
+              <span>Character: {member.character}</span>
+            </CastStyle>
           </li>
         ))}
       </ul>
     </section>
   );
 };
+
+export default Cast;
