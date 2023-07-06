@@ -1,20 +1,42 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { fetchMovieReviews } from 'services';
+
 export const Reviews = () => {
+  const [reviews, setReviews] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const asyncFunction = async () => {
+      try {
+        setReviews(await fetchMovieReviews(id));
+      } catch (error) {
+        console.log('Error: ', error);
+      }
+    };
+    asyncFunction();
+  }, [id]);
+
+  const showReviews = () => {
+    return (
+      <ul>
+        {reviews.map(review => (
+          <li>
+            <h3>{review.author}</h3>
+            <p>{review.content}</p>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <section>
-      <h2>Reviews</h2>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut, nesciunt
-        veniam. Excepturi itaque, voluptates fugiat perspiciatis quo saepe! Iste
-        eaque porro eveniet error dicta, modi ipsum hic quis minima inventore.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora quaerat
-        illum excepturi odit doloremque, vitae quasi corporis commodi nisi quae
-        perspiciatis amet consectetur reprehenderit inventore laborum facilis
-        quia mollitia exercitationem eaque rerum dignissimos maiores, quos iure
-        blanditiis. Dolorem, nam? Aliquid sequi molestias vel, tenetur maxime
-        pariatur? Molestiae libero cum quidem.
-      </p>
+      {reviews.length > 0 ? (
+        showReviews()
+      ) : (
+        <span>We don't have any reviews for this movie.</span>
+      )}
     </section>
   );
 };

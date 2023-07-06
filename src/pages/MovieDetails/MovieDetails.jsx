@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 import { fetchMovieDetailsWithId } from 'services';
 
 export const MovieDetails = () => {
@@ -22,13 +22,18 @@ export const MovieDetails = () => {
     return genres;
   };
 
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/movies';
+
   const { title, release_date, poster_path, vote_average, overview, genres } =
     details;
 
   return (
     <main>
       <div>
-        <h1>Movie details</h1>
+        <Link to={backLinkHref}>
+          <button>&#x2190; Go back</button>
+        </Link>
         <img
           src={`https://image.tmdb.org/t/p/original${poster_path}`}
           alt={title}
